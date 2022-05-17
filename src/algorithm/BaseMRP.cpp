@@ -99,6 +99,22 @@ std::vector<std::size_t> BaseMRP::get_ppl()
     return ppl_;
 }
 
+std::size_t BaseMRP::get_all_demand() const
+{
+    std::int64_t r {};
+
+    // ALL_NEED - ALL_RECEPTIONS - INITIAL_STOCK(WITHOUT SECURITY STOCK)
+    for (auto it: needs_) r += static_cast<int64_t>(it);
+    for (auto it: receptions_) r -= static_cast<int64_t>(it);
+    r += static_cast<int64_t>(security_stock_);
+    r -= static_cast<int64_t>(availability_.at(0));
+
+    // TRIM MINIMUM TO 0
+    r = r>0 ? r : 0;
+
+    return static_cast<std::size_t>(r);
+}
+
 double BaseMRP::get_hold_costs(bool include_security_stock)
 {
     if(!calculated_)

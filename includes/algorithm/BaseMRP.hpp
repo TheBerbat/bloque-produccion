@@ -29,6 +29,8 @@ public:
     std::vector<std::size_t> get_net_needs();
     std::vector<std::size_t> get_ppl();
 
+    std::size_t get_all_demand() const;
+
     double get_hold_costs(bool include_security_stock = false);
     double get_emision_costs();
     double get_total_costs();

@@ -10,26 +10,14 @@ EOQ::EOQ(std::size_t planning_horizon, std::size_t security_stock, double emisio
 
 void EOQ::calculate()
 {
+    // Q* = sqrt((2*D*S)/(H))
     auto calcQ = [](std::size_t all_demand, std::size_t num_periods, double emision_cost, double hold_cost){
         double Q { std::sqrt( (2.0 * static_cast<double>(all_demand) * emision_cost)/(static_cast<double>(num_periods)*hold_cost))};
         Q = std::ceil(Q);
         return static_cast<std::size_t>(Q);
     };
 
-    auto calc_demand = [](std::vector<std::size_t>& needs, std::vector<std::size_t>& receptions, std::size_t initial_availability, std::size_t security_stock){
-        std::int64_t r {};
-
-        for (auto it: needs) r += static_cast<int64_t>(it);
-        for (auto it: receptions) r -= static_cast<int64_t>(it);
-        r += static_cast<int64_t>(security_stock);
-        r -= static_cast<int64_t>(initial_availability);
-
-        r = r>0 ? r : 0;
-
-        return static_cast<std::size_t>(r);
-    };
-
-    std::size_t batch_size = calcQ(calc_demand(needs_, receptions_, availability_.at(0), security_stock_), planning_horizon_, emision_cost_, hold_cost_);
+    const std::size_t batch_size {calcQ(get_all_demand(), planning_horizon_, emision_cost_, hold_cost_)};
 
     for (std::size_t i{0} ; i<planning_horizon_ ; ++i)
     {

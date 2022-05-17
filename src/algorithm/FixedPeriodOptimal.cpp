@@ -16,20 +16,7 @@ void FixedPeriodOptimal::calculate()
         return static_cast<std::size_t>(T);
     };
 
-    auto calc_demand = [](std::vector<std::size_t>& needs, std::vector<std::size_t>& receptions, std::size_t initial_availability, std::size_t security_stock){
-        std::int64_t r {};
-
-        for (auto it: needs) r += static_cast<int64_t>(it);
-        for (auto it: receptions) r -= static_cast<int64_t>(it);
-        r += static_cast<int64_t>(security_stock);
-        r -= static_cast<int64_t>(initial_availability);
-
-        r = r>0 ? r : 0;
-
-        return static_cast<std::size_t>(r);
-    };
-
-    std::size_t period = calcPeriod(calc_demand(needs_, receptions_, availability_.at(0), security_stock_), planning_horizon_, emision_cost_, hold_cost_);
+    std::size_t period = calcPeriod(get_all_demand(), planning_horizon_, emision_cost_, hold_cost_);
     set_period(period);
     FixedPeriod::calculate();
 }
