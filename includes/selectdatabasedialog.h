@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include <QSqlDatabase>
+
 namespace Ui {
 class SelectDatabaseDialog;
 }
@@ -15,8 +17,22 @@ public:
     explicit SelectDatabaseDialog(QWidget *parent = nullptr);
     ~SelectDatabaseDialog();
 
+    QString filenameDB() const;
+    void setFilenameDB(const QString& filenameDB);
+    void selectDBWindow();
+
+    static bool isValidFileName(const QString &filename);
+    bool connectDB();
+    void disconnectDB();
+    bool database_valid() const;
+
+private slots:
+    void filenameUpdated(const QString &new_filename);
+    void connect_close();
+
 private:
     Ui::SelectDatabaseDialog *ui;
+    QSqlDatabase m_db;
 };
 
 #endif // SELECTDATABASEDIALOG_H
