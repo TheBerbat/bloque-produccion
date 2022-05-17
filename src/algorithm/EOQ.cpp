@@ -20,7 +20,7 @@ void EOQ::calculate()
     auto get_multiple_ceil = [](std::size_t num, std::size_t multiple){
         std::size_t num_multiple = num / multiple;
         if ((num%multiple) > 0) ++num_multiple;
-        return num_multiple*num;
+        return num_multiple*multiple;
     };
 
     const std::size_t batch_size {calcQ(get_all_demand(), planning_horizon_, emision_cost_, hold_cost_)};
