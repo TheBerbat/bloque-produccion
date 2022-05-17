@@ -25,6 +25,7 @@ public:
     bool connectDB();
     void disconnectDB();
     bool database_valid() const;
+    QSqlDatabase getDB();
 
 private slots:
     void filenameUpdated(const QString &new_filename);

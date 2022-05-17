@@ -17,13 +17,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void fillTable(QSqlQuery& q);
+
 private slots:
     void connectDatabase();
     void disconnectDatabase();
+    void updateTable(int idx);
+    void updateItem(int r, int c);
 
 private:
     Ui::MainWindow *ui;
 
     SelectDatabaseDialog selector_database_window;
+
+    bool auto_editing {false};
 };
 #endif // MAINWINDOW_H

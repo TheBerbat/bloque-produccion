@@ -107,3 +107,9 @@ bool SelectDatabaseDialog::database_valid() const
 {
     return m_db.isValid() && m_db.isOpen();
 }
+
+QSqlDatabase SelectDatabaseDialog::getDB()
+{
+    return m_db;
+}
+
