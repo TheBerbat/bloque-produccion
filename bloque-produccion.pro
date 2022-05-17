@@ -13,6 +13,8 @@ SOURCES += \
     src/algorithm/Batch2Batch.cpp \
     src/algorithm/Batch2BatchWithMin.cpp \
     src/algorithm/EOQ.cpp \
+    src/algorithm/FixedPeriod.cpp \
+    src/algorithm/FixedPeriodOptimal.cpp \
     src/insertdatadialog.cpp \
     src/selectdatabasedialog.cpp \
     src/main.cpp \
@@ -26,6 +28,8 @@ HEADERS += \
     includes/algorithm/Batch2Batch.hpp \
     includes/algorithm/Batch2BatchWithMin.hpp \
     includes/algorithm/EOQ.hpp \
+    includes/algorithm/FixedPeriod.hpp \
+    includes/algorithm/FixedPeriodOptimal.hpp \
 
 FORMS += \
     src/insertdatadialog.ui \
