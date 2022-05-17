@@ -99,4 +99,40 @@ std::vector<std::size_t> BaseMRP::get_ppl()
     return ppl_;
 }
 
+double BaseMRP::get_hold_costs(bool include_security_stock)
+{
+    if(!calculated_)
+    {
+        this->calculate();
+        calculated_ = true;
+    }
+    double cost {0.0};
+    for (auto it {availability_.begin()} ; it!=availability_.end()-1 ; ++it)
+        cost += hold_cost_ * static_cast<double>(*it);
+
+    if (!include_security_stock)
+        cost -= static_cast<double>(security_stock_ * planning_horizon_);
+
+    return cost;
+}
+double BaseMRP::get_emision_costs()
+{
+    if(!calculated_)
+    {
+        this->calculate();
+        calculated_ = true;
+    }
+    double cost {0.0};
+    for (auto it {ppl_.begin()} ; it!=ppl_.end() ; ++it)
+        if (*it >0)
+        cost += emision_cost_;
+
+    return cost;
+}
+
+double BaseMRP::get_total_costs()
+{
+    return get_hold_costs() + get_emision_costs();
+}
+
 } // namespace MRP_Algorithm
