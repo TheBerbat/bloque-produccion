@@ -16,19 +16,20 @@ void EOQ::calculate()
         return static_cast<std::size_t>(Q);
     };
 
-    auto calc_demand = [](std::vector<std::size_t>& needs, std::vector<std::size_t>& receptions, std::size_t initial_availability){
+    auto calc_demand = [](std::vector<std::size_t>& needs, std::vector<std::size_t>& receptions, std::size_t initial_availability, std::size_t security_stock){
         std::int64_t r {};
 
         for (auto it: needs) r += static_cast<int64_t>(it);
         for (auto it: receptions) r -= static_cast<int64_t>(it);
-        r -= initial_availability;
+        r += static_cast<int64_t>(security_stock);
+        r -= static_cast<int64_t>(initial_availability);
 
         r = r>0 ? r : 0;
 
         return static_cast<std::size_t>(r);
     };
 
-    std::size_t batch_size = calcQ(calc_demand(needs_, receptions_, availability_.at(0)), planning_horizon_, emision_cost_, hold_cost_);
+    std::size_t batch_size = calcQ(calc_demand(needs_, receptions_, availability_.at(0), security_stock_), planning_horizon_, emision_cost_, hold_cost_);
 
     for (std::size_t i{0} ; i<planning_horizon_ ; ++i)
     {
