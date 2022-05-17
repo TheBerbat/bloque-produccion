@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/algorithm/lotealote.cpp \
     src/insertdatadialog.cpp \
     src/selectdatabasedialog.cpp \
     src/main.cpp \
@@ -17,7 +18,8 @@ SOURCES += \
 HEADERS += \
     includes/mainwindow.h \
     includes/selectdatabasedialog.h \
-    includes/insertdatadialog.h
+    includes/insertdatadialog.h \
+    includes/algorithm/lotealote.h
 
 FORMS += \
     src/insertdatadialog.ui \
