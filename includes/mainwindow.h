@@ -25,6 +25,7 @@ private slots:
     void updateTable(int idx);
     void updateItem(int r, int c);
     void insertItem(int status);
+    void clickDeleteItem(int r, int c);
 
 private:
     Ui::MainWindow *ui;

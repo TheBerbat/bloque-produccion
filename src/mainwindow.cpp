@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect(ui->tableWidget, &QTableWidget::cellChanged,
                      this, &MainWindow::updateItem);
+    QObject::connect(ui->tableWidget, &QTableWidget::cellClicked,
+                     this, &MainWindow::clickDeleteItem);
 
     QObject::connect(ui->insertButton, &QPushButton::clicked,
                      this, &MainWindow::insertItem);
@@ -76,7 +78,7 @@ void MainWindow::updateTable(int idx)
         ui->tableWidget->horizontalHeaderItem(1)->setText("Cliente");
         this->fillTable(q);
     } else {
-        QSqlQuery q("select ID_PEDIDO, ID_CLIENTE, FECHA_LANZAMIENTO, CANTIDAD from pedidos",
+        QSqlQuery q("select ID_RECEPCION, ID_PROVEEDOR, FECHA, CANTIDAD from recepciones_programadas",
                      selector_database_window.getDB());
         ui->tableWidget->horizontalHeaderItem(1)->setText("Proveedor");
         this->fillTable(q);
@@ -117,12 +119,24 @@ void MainWindow::updateItem(int r, int c)
 
 
     QSqlQuery q(selector_database_window.getDB());
-    q.prepare("update pedidos set ID_CLIENTE=:id_cli, FECHA_LANZAMIENTO=:fech_lanz, CANTIDAD=:cant where ID_PEDIDO=:id_pedi");
+    if (ui->selectorTable->currentIndex() == 0)
+    {
+        q.prepare("update pedidos set ID_CLIENTE=:id_cli, FECHA_LANZAMIENTO=:fech_lanz, CANTIDAD=:cant where ID_PEDIDO=:id_pedi");
 
         q.bindValue(":id_cli", id_consumidor);
         q.bindValue(":fech_lanz", fecha_lanzamiento);
         q.bindValue(":cant", cantidad);
         q.bindValue(":id_pedi", id);
+    }
+    else if (ui->selectorTable->currentIndex() == 1)
+    {
+        q.prepare("update recepciones_programadas set ID_PROVEEDOR=:id_provee, FECHA=:fech_lanz, CANTIDAD=:cant where ID_RECEPCION=:id_recep");
+
+        q.bindValue(":id_provee", id_consumidor);
+        q.bindValue(":fech_lanz", fecha_lanzamiento);
+        q.bindValue(":cant", cantidad);
+        q.bindValue(":id_recep", id);
+    }
 
     q.exec();
     updateTable(ui->selectorTable->currentIndex());
@@ -136,16 +150,52 @@ void MainWindow::insertItem(int status)
         return;
 
     QSqlQuery q(selector_database_window.getDB());
-    q.prepare("insert into pedidos (ID_CLIENTE, FECHA_LANZAMIENTO, CANTIDAD) values (:id_cli, :fech_lanz, :cant)");
+    if (ui->selectorTable->currentIndex() == 0)
+    {
+        q.prepare("insert into pedidos (ID_CLIENTE, FECHA_LANZAMIENTO, CANTIDAD) values (:id_cli, :fech_lanz, :cant)");
 
         q.bindValue(":id_cli", w.getTarget());
         q.bindValue(":fech_lanz", w.getPeriod());
         q.bindValue(":cant", w.getSize());
+    }
+    else if (ui->selectorTable->currentIndex() == 1)
+    {
+        q.prepare("insert into recepciones_programadas (ID_PROVEEDOR, FECHA, CANTIDAD) values (:id_provee, :fech_lanz, :cant)");
+
+        q.bindValue(":id_provee", w.getTarget());
+        q.bindValue(":fech_lanz", w.getPeriod());
+        q.bindValue(":cant", w.getSize());
+    }
 
     q.exec();
     updateTable(ui->selectorTable->currentIndex());
 }
 
+void MainWindow::clickDeleteItem(int r, int c)
+{
+    if (!ui->deleteButton->isChecked())
+        return;
+    qDebug() << "Deleting row" << r;
+
+    QString id { ui->tableWidget->item(r, 0)->text()};
+
+    QSqlQuery q(selector_database_window.getDB());
+    if (ui->selectorTable->currentIndex() == 0)
+    {
+        q.prepare("delete from pedidos where ID_PEDIDO=:id_pedi;");
+
+        q.bindValue(":id_pedi", id);
+    }
+    else if (ui->selectorTable->currentIndex() == 1)
+    {
+        q.prepare("delete from recepciones_programadas where ID_PROVEEDOR=:id_provee;");
+
+        q.bindValue(":id_provee", id);
+    }
+
+    q.exec();
+    updateTable(ui->selectorTable->currentIndex());
+}
 
 void MainWindow::fillTable(QSqlQuery& q)
 {
