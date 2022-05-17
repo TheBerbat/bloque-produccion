@@ -23,6 +23,11 @@ public:
 
     virtual void calculate() = 0;
 
+protected:
+    std::size_t calculate_net_needs(std::size_t idx) const;
+    std::size_t calculate_availability(std::size_t idx) const;
+
+public:
     std::vector<std::size_t> get_needs();
     std::vector<std::size_t> get_availability();
     std::vector<std::size_t> get_receptions();

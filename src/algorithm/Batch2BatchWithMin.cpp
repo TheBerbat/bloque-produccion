@@ -10,18 +10,15 @@ Batch2BatchWithMin::Batch2BatchWithMin(std::size_t min_size, std::size_t plannin
 
 void Batch2BatchWithMin::calculate()
 {
-    if (calculated_)
-        return;
-    calculated_=true;
+    auto trim_minimum_size = [](std::size_t num, std::size_t minimum){
+        return 0<num && num<minimum ? minimum : num;
+    };
 
     for (std::size_t i{0} ; i<planning_horizon_ ; ++i)
     {
-        std::int64_t net_needs = static_cast<int64_t>(needs_.at(i) - (availability_.at(i) - security_stock_) - receptions_.at(i));
-        net_needs_.at(i) = net_needs<=0 ? 0 : static_cast<std::size_t>(net_needs);
-
-        ppl_.at(i) = 0<net_needs_.at(i) && net_needs_.at(i)<min_size_ ? min_size_ : net_needs_.at(i);
-
-        availability_.at(i+1) = availability_.at(i) - needs_.at(i) + receptions_.at(i) + ppl_.at(i);
+        net_needs_.at(i) = calculate_net_needs(i);
+        ppl_.at(i) = trim_minimum_size(net_needs_.at(i), min_size_);
+        availability_.at(i+1) = calculate_availability(i+1);
     }
 }
 

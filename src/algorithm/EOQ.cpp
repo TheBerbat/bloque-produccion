@@ -17,26 +17,19 @@ void EOQ::calculate()
         return static_cast<std::size_t>(Q);
     };
 
+    auto get_multiple_ceil = [](std::size_t num, std::size_t multiple){
+        std::size_t num_multiple = num / multiple;
+        if ((num%multiple) > 0) ++num_multiple;
+        return num_multiple*num;
+    };
+
     const std::size_t batch_size {calcQ(get_all_demand(), planning_horizon_, emision_cost_, hold_cost_)};
 
     for (std::size_t i{0} ; i<planning_horizon_ ; ++i)
     {
-        std::int64_t net_needs = static_cast<int64_t>(needs_.at(i) - (availability_.at(i) - security_stock_) - receptions_.at(i));
-
-        if (net_needs>0)
-        {
-            net_needs_.at(i) = static_cast<std::size_t>(net_needs);
-            std::size_t num_batchs = net_needs_.at(i) / batch_size;
-            if (net_needs_.at(i) % batch_size>0) ++num_batchs;
-            ppl_.at(i) = num_batchs*batch_size;
-        }
-        else
-        {
-            net_needs_.at(i) = 0;
-            ppl_.at(i) = 0;
-        }
-
-        availability_.at(i+1) = availability_.at(i) - needs_.at(i) + receptions_.at(i) + ppl_.at(i);
+        net_needs_.at(i) = calculate_net_needs(i);
+        ppl_.at(i) = get_multiple_ceil(net_needs_.at(i), batch_size);
+        availability_.at(i+1) = calculate_availability(i+1);
     }
 }
 

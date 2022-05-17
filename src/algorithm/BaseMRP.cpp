@@ -115,6 +115,34 @@ std::size_t BaseMRP::get_all_demand() const
     return static_cast<std::size_t>(r);
 }
 
+std::size_t BaseMRP::calculate_net_needs(std::size_t idx) const
+{
+    auto trim_to_size_t = [](std::int64_t num){
+        return num>0 ? static_cast<std::size_t>(num) : 0;
+    };
+    
+    std::int64_t net_needs = static_cast<int64_t>(needs_.at(idx)) - 
+                           ( static_cast<int64_t>(availability_.at(idx)) -  
+                             static_cast<int64_t>(security_stock_) ) - 
+                             static_cast<int64_t>(receptions_.at(idx));
+
+    return trim_to_size_t(net_needs);
+}
+
+std::size_t BaseMRP::calculate_availability(std::size_t idx) const
+{
+    auto trim_to_size_t = [](std::int64_t num){
+        return num>0 ? static_cast<std::size_t>(num) : 0;
+    };
+    
+    std::int64_t availability = static_cast<int64_t>(availability_.at(idx-1)) - 
+                                static_cast<int64_t>(needs_.at(idx-1)) + 
+                                static_cast<int64_t>(receptions_.at(idx-1)) + 
+                                static_cast<int64_t>(ppl_.at(idx-1));
+
+    return trim_to_size_t(availability);
+}
+
 double BaseMRP::get_hold_costs(bool include_security_stock)
 {
     if(!calculated_)
