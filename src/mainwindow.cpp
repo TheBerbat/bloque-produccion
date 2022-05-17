@@ -3,6 +3,7 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QMessageBox>
 
 #include <selectdatabasedialog.h>
 #include <insertdatadialog.h>
@@ -51,6 +52,7 @@ void MainWindow::connectDatabase()
         ui->selectorTable->setEnabled(true);
         ui->insertButton->setEnabled(true);
     }
+    updateTable(ui->selectorTable->currentIndex());
 }
 
 void MainWindow::disconnectDatabase()
@@ -62,6 +64,8 @@ void MainWindow::disconnectDatabase()
 
     ui->selectorTable->setEnabled(false);
     ui->insertButton->setEnabled(false);
+    QSqlQuery q;
+    fillTable(q);
 }
 
 void MainWindow::updateTable(int idx)
@@ -89,6 +93,29 @@ void MainWindow::updateItem(int r, int c)
     QString fecha_lanzamiento {ui->tableWidget->item(r, 2)->text()};
     QString cantidad {ui->tableWidget->item(r, 3)->text()};
 
+    bool isNum;
+    int fecha_lanzamiento_num = fecha_lanzamiento.toInt(&isNum);
+    if (!isNum || fecha_lanzamiento_num<=0 || fecha_lanzamiento_num>10)
+    {
+        QMessageBox messageBox;
+        messageBox.critical(this,"Periodo no válido","No cumple con las condiciones de entrada. Debe ser un número entre 1 y 10 (ambos incluidos)");
+        messageBox.setFixedSize(500,200);
+
+        updateTable(ui->selectorTable->currentIndex());
+        return;
+    }
+    int cantidad_num = cantidad.toInt(&isNum);
+    if (!isNum || cantidad_num<0)
+    {
+        QMessageBox messageBox;
+        messageBox.critical(this,"Cantidad de pedido no válida","No cumple con las condiciones de entrada. Debe ser un número positivo (incluyendo 0)");
+        messageBox.setFixedSize(500,200);
+
+        updateTable(ui->selectorTable->currentIndex());
+        return;
+    }
+
+
     QSqlQuery q(selector_database_window.getDB());
     q.prepare("update pedidos set ID_CLIENTE=:id_cli, FECHA_LANZAMIENTO=:fech_lanz, CANTIDAD=:cant where ID_PEDIDO=:id_pedi");
 
@@ -98,13 +125,25 @@ void MainWindow::updateItem(int r, int c)
         q.bindValue(":id_pedi", id);
 
     q.exec();
+    updateTable(ui->selectorTable->currentIndex());
 }
 
 void MainWindow::insertItem(int status)
 {
     qDebug()<<"Inserting new item in database";
     InsertDataDialog w(this);
-    w.exec();
+    if (!w.exec())
+        return;
+
+    QSqlQuery q(selector_database_window.getDB());
+    q.prepare("insert into pedidos (ID_CLIENTE, FECHA_LANZAMIENTO, CANTIDAD) values (:id_cli, :fech_lanz, :cant)");
+
+        q.bindValue(":id_cli", w.getTarget());
+        q.bindValue(":fech_lanz", w.getPeriod());
+        q.bindValue(":cant", w.getSize());
+
+    q.exec();
+    updateTable(ui->selectorTable->currentIndex());
 }
 
 
