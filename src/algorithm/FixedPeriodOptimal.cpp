@@ -5,7 +5,7 @@ namespace MRP_Algorithm
 {
 
 FixedPeriodOptimal::FixedPeriodOptimal(std::size_t planning_horizon, std::size_t security_stock, double emision_cost, double hold_cost)
-  : FixedPeriod(planning_horizon, security_stock, emision_cost, hold_cost)
+  : FixedPeriod(1, planning_horizon, security_stock, emision_cost, hold_cost)
 {}
 
 void FixedPeriodOptimal::calculate()
