@@ -15,6 +15,10 @@ public:
     explicit InsertDataDialog(QWidget *parent = nullptr);
     ~InsertDataDialog();
 
+    QString getTarget() const;
+    int getPeriod() const;
+    int getSize() const;
+
 private:
     Ui::InsertDataDialog *ui;
 };

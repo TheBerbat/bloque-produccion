@@ -12,3 +12,16 @@ InsertDataDialog::~InsertDataDialog()
 {
     delete ui;
 }
+
+QString InsertDataDialog::getTarget() const
+{
+    return ui->targetEdit->text();
+}
+int InsertDataDialog::getPeriod() const
+{
+    return ui->periodEdit->value();
+}
+int InsertDataDialog::getSize() const
+{
+    return ui->sizeEdit->value();
+}

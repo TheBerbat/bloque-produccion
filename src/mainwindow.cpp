@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 
 #include <selectdatabasedialog.h>
+#include <insertdatadialog.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -14,20 +15,23 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    disconnectDatabase();
+
     QObject::connect(ui->actionConectar, &QAction::triggered,
                      this, &MainWindow::connectDatabase);
 
-    ui->actionDesconectar->setEnabled(false);
     QObject::connect(ui->actionDesconectar, &QAction::triggered,
                      this, &MainWindow::disconnectDatabase);
 
-    ui->selectorTable->setEnabled(false);
     QObject::connect(ui->selectorTable, &QComboBox::currentIndexChanged,
                      this, &MainWindow::updateTable);
 
 
     QObject::connect(ui->tableWidget, &QTableWidget::cellChanged,
                      this, &MainWindow::updateItem);
+
+    QObject::connect(ui->insertButton, &QPushButton::clicked,
+                     this, &MainWindow::insertItem);
 }
 
 MainWindow::~MainWindow()
@@ -45,6 +49,7 @@ void MainWindow::connectDatabase()
         ui->actionDesconectar->setEnabled(true);
 
         ui->selectorTable->setEnabled(true);
+        ui->insertButton->setEnabled(true);
     }
 }
 
@@ -56,6 +61,7 @@ void MainWindow::disconnectDatabase()
     ui->actionDesconectar->setEnabled(false);
 
     ui->selectorTable->setEnabled(false);
+    ui->insertButton->setEnabled(false);
 }
 
 void MainWindow::updateTable(int idx)
@@ -92,6 +98,13 @@ void MainWindow::updateItem(int r, int c)
         q.bindValue(":id_pedi", id);
 
     q.exec();
+}
+
+void MainWindow::insertItem(int status)
+{
+    qDebug()<<"Inserting new item in database";
+    InsertDataDialog w(this);
+    w.exec();
 }
 
 

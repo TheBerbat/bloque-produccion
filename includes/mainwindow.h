@@ -24,6 +24,7 @@ private slots:
     void disconnectDatabase();
     void updateTable(int idx);
     void updateItem(int r, int c);
+    void insertItem(int status);
 
 private:
     Ui::MainWindow *ui;
