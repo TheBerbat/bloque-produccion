@@ -17,6 +17,7 @@ SOURCES += \
     src/algorithm/FixedPeriodOptimal.cpp \
     src/algorithm/MinimumUnitaryCost.cpp \
     src/algorithm/MinimumTotalCost.cpp \
+    src/algorithm/SilverMeal.cpp \
     src/insertdatadialog.cpp \
     src/selectdatabasedialog.cpp \
     src/main.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     includes/algorithm/FixedPeriodOptimal.hpp \
     includes/algorithm/MinimumUnitaryCost.hpp \
     includes/algorithm/MinimumTotalCost.hpp \
+    includes/algorithm/SilverMeal.hpp \
 
 FORMS += \
     src/insertdatadialog.ui \
