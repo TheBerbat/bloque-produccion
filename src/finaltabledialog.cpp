@@ -1,8 +1,6 @@
 #include <finaltabledialog.h>
 #include "ui_finaltabledialog.h"
 
-#include <cstdio>
-
 FinalTableDialog::FinalTableDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::FinalTableDialog)
@@ -40,10 +38,13 @@ void FinalTableDialog::setMRP(MRP_Algorithm::BaseMRP* mrp)
     setRow(mrp->get_receptions()  , 2);
     setRow(mrp->get_net_needs()   , 3);
     setRow(mrp->get_ppl()         , 4);
+    setRow(mrp->get_lppl()        , 5);
 
-    std::printf("%.2lfe\n", mrp->get_emision_costs());
-    std::printf("%.2lfe\n", mrp->get_hold_costs());
-    std::printf("%.2lfe\n", mrp->get_total_costs());
-    std::fflush(stdout);
+    ui->emisionCost->setText(QString::number(mrp->get_emision_costs(), 'f', 2) + "€");
+    ui->emisionCost->setReadOnly(true);
+    ui->holdCost->setText(QString::number(mrp->get_hold_costs(), 'f', 2) + "€");
+    ui->holdCost->setReadOnly(true);
+    ui->totalCost->setText(QString::number(mrp->get_total_costs(), 'f', 2) + "€");
+    ui->totalCost->setReadOnly(true);
 }
 

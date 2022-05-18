@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>767</width>
-    <height>302</height>
+    <width>1240</width>
+    <height>301</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="holdCost"/>
        </item>
       </layout>
      </item>
@@ -74,7 +74,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_2"/>
+        <widget class="QLineEdit" name="emisionCost"/>
        </item>
       </layout>
      </item>
@@ -88,7 +88,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_3"/>
+        <widget class="QLineEdit" name="totalCost"/>
        </item>
       </layout>
      </item>
