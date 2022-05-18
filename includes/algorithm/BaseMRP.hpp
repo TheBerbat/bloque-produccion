@@ -20,6 +20,7 @@ public:
     void set_initial_availability(std::size_t availability);
 
     void set_costs(double emision_cost_, double hold_cost_);
+    void set_ship_period(std::size_t period);
 
     virtual void calculate() = 0;
 
@@ -33,6 +34,7 @@ public:
     std::vector<std::size_t> get_receptions();
     std::vector<std::size_t> get_net_needs();
     std::vector<std::size_t> get_ppl();
+    std::vector<std::size_t> get_lppl();
 
     std::size_t get_all_demand() const;
 
@@ -49,6 +51,7 @@ protected:
     std::vector<std::size_t> ppl_{};
 
     std::size_t planning_horizon_{0};
+    std::size_t period_ship_{0};
     bool calculated_{false};
 
     double emision_cost_{0.0};

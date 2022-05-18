@@ -10,6 +10,7 @@ BaseMRP::BaseMRP(std::size_t planning_horizon, std::size_t security_stock, doubl
     , net_needs_(planning_horizon)
     , ppl_(planning_horizon)
     , planning_horizon_{planning_horizon}
+    , period_ship_{0}
     , calculated_{false}
     , emision_cost_{emision_cost}
     , hold_cost_{hold_cost}
@@ -51,6 +52,10 @@ void BaseMRP::set_costs(double emision_cost, double hold_cost)
     calculated_=false;
     emision_cost_ = emision_cost;
     hold_cost_    = hold_cost;
+}
+void BaseMRP::set_ship_period(std::size_t period)
+{
+    period_ship_ = period;
 }
 
 std::vector<std::size_t> BaseMRP::get_needs()
@@ -97,6 +102,18 @@ std::vector<std::size_t> BaseMRP::get_ppl()
         calculated_ = true;
     }
     return ppl_;
+}
+std::vector<std::size_t> BaseMRP::get_lppl()
+{
+    if(!calculated_)
+    {
+        this->calculate();
+        calculated_ = true;
+    }
+    std::vector<std::size_t> lppl(planning_horizon_);
+    for (std::size_t i{period_ship_} ; i<planning_horizon_ ; ++i)
+        lppl.at(i-period_ship_) = ppl_.at(i);
+    return lppl;
 }
 
 std::size_t BaseMRP::get_all_demand() const
