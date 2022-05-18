@@ -1,6 +1,6 @@
 #include <algorithm/MinimumUnitaryCost.hpp>
 #include <cmath>
-#include <cstdio>
+//#include <cstdio>
 #include <limits>
 
 namespace MRP_Algorithm
@@ -49,7 +49,7 @@ void MinimumUnitaryCost::calculate()
         const double ce_ud = emision_cost_/static_cast<double>(Q);
         const double ct_ud = cp_ud + ce_ud;
         
-        std::printf("\n%lu->%lu - Q*%lu - %.2f - %.2f = %.2f", head, it, Q, cp_ud, ce_ud, ct_ud);
+        //std::printf("\n%lu->%lu - Q*%lu - %.2f - %.2f = %.2f", head, it, Q, cp_ud, ce_ud, ct_ud);
         
         if ( ct_ud>ct_ud_last ) {
             ppl_.at(head) = Q - ppl_.at(it);
@@ -61,7 +61,7 @@ void MinimumUnitaryCost::calculate()
             
             head = it;
             ct_ud_last = std::numeric_limits<double>::max();
-            std::printf("===");
+            //std::printf("===");
         } else {
             ++it;
             ct_ud_last = ct_ud;
@@ -70,7 +70,7 @@ void MinimumUnitaryCost::calculate()
     ppl_.at(head) = Q;
     for (std::size_t p{head+1} ; p<it ; ++p)
         ppl_.at(p) = 0;
-    std::printf("===\n");
+    //std::printf("===\n");
 
     // RECALCULATE NET_NEEDS AND AVAILABILITY WHITH PRECALCULATED PLL
     for (std::size_t i{0} ; i<planning_horizon_ ; ++i)
