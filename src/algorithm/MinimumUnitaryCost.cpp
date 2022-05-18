@@ -13,15 +13,6 @@ MinimumUnitaryCost::MinimumUnitaryCost(std::size_t planning_horizon, std::size_t
 
 void MinimumUnitaryCost::calculate()
 {
-    auto count_units = [](const std::vector<std::size_t>& ppl,
-                                    std::size_t start,
-                                    std::size_t end){
-        std::size_t num {0};
-        for(std::size_t i{start} ; i<=end ; ++i)
-            num += ppl.at(i);
-        return num;
-    };
-
     // MAKE BATCH TO BATCH
     for (std::size_t i{0} ; i<planning_horizon_ ; ++i)
     {
