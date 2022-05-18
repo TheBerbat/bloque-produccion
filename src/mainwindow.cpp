@@ -256,6 +256,7 @@ void MainWindow::calculate()
     const double emision_cost { ui->emisionCost->value() };
     const std::size_t batch_min { static_cast<std::size_t>(ui->batchSize->value()) };
     const std::size_t fixed_period { static_cast<std::size_t>(ui->periodSize->value()) };
+    const std::size_t period_ship { static_cast<std::size_t>(ui->shipTime->value()) };
 
 
     // GET PLANNING HORIZON FROM DATABASE
@@ -336,6 +337,7 @@ void MainWindow::calculate()
         p->insert_receptions(period-1, count);
     }
 
+    p->set_ship_period(period_ship);
     p->calculate();
     table_window.setMRP(p.get());
     table_window.show();
