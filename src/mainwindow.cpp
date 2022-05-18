@@ -7,6 +7,15 @@
 
 #include <selectdatabasedialog.h>
 #include <insertdatadialog.h>
+#include <algorithm/Batch2Batch.hpp>
+#include <algorithm/Batch2BatchWithMin.hpp>
+#include <algorithm/EOQ.hpp>
+#include <algorithm/FixedPeriod.hpp>
+#include <algorithm/FixedPeriodOptimal.hpp>
+#include <algorithm/MinimumTotalCost.hpp>
+#include <algorithm/MinimumUnitaryCost.hpp>
+#include <algorithm/SilverMeal.hpp>
+#include <cstdio>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -35,6 +44,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect(ui->insertButton, &QPushButton::clicked,
                      this, &MainWindow::insertItem);
+
+    QObject::connect(ui->calculateButton, &QPushButton::clicked,
+                     this, &MainWindow::calculate);
 }
 
 MainWindow::~MainWindow()
@@ -53,6 +65,7 @@ void MainWindow::connectDatabase()
 
         ui->selectorTable->setEnabled(true);
         ui->insertButton->setEnabled(true);
+        ui->calculateButton->setEnabled(true);
     }
     updateTable(ui->selectorTable->currentIndex());
 }
@@ -66,6 +79,7 @@ void MainWindow::disconnectDatabase()
 
     ui->selectorTable->setEnabled(false);
     ui->insertButton->setEnabled(false);
+    ui->calculateButton->setEnabled(false);
     QSqlQuery q;
     fillTable(q);
 }
@@ -231,6 +245,130 @@ void MainWindow::fillTable(QSqlQuery& q)
     auto_editing = false;
 }
 
+
+void MainWindow::calculate()
+{
+    // GET DATA FROM WINDOW
+    //
+    const int operationID { ui->algorithmSelector->currentIndex() };
+    const std::size_t ss { static_cast<std::size_t>(ui->securityStock->value()) };
+    const double hold_cost { ui->holdCost->value() };
+    const double emision_cost { ui->emisionCost->value() };
+    const std::size_t batch_min { static_cast<std::size_t>(ui->batchSize->value()) };
+    const std::size_t fixed_period { static_cast<std::size_t>(ui->periodSize->value()) };
+
+
+    // GET PLANNING HORIZON FROM DATABASE
+    //
+    QSqlQuery q1("SELECT FECHA_LANZAMIENTO FROM pedidos ORDER BY FECHA_LANZAMIENTO DESC LIMIT 1", selector_database_window.getDB());
+
+    std::size_t planning_horizon;
+    if(q1.next())
+        planning_horizon = q1.value(0).toULongLong();
+    else
+        qDebug()<< "WARNING: get top database. No elements in pedidos";
+
+    QSqlQuery q2("SELECT FECHA FROM recepciones_programadas ORDER BY FECHA DESC LIMIT 1", selector_database_window.getDB());
+    if(q2.next())
+    {
+        const std::size_t tmp { q2.value(0).toULongLong() };
+        planning_horizon = std::max(tmp, planning_horizon);
+    }
+    else
+        qDebug()<< "Error get top database. No elements in recepciones_programadas";
+
+    // CREATION OF ALGORITHM PLANNER
+    //
+    std::unique_ptr<MRP_Algorithm::BaseMRP> p;
+
+    switch (operationID)
+    {
+    case 0ull: // BATCH2BATCH
+        p = std::make_unique<MRP_Algorithm::Batch2Batch>(planning_horizon, ss, emision_cost, hold_cost);
+        break;
+
+    case 1ull: // BATCH2BATCH with minimum
+        p = std::make_unique<MRP_Algorithm::Batch2BatchWithMin>(batch_min, planning_horizon, ss, emision_cost, hold_cost);
+        break;
+
+    case 2ull: // EOQ
+        p = std::make_unique<MRP_Algorithm::EOQ>(planning_horizon, ss, emision_cost, hold_cost);
+        break;
+
+    case 3ull: // Fixed Period
+        p = std::make_unique<MRP_Algorithm::FixedPeriod>(fixed_period, planning_horizon, ss, emision_cost, hold_cost);
+        break;
+
+    case 4ull: // Fixed Period Optimal
+        p = std::make_unique<MRP_Algorithm::FixedPeriodOptimal>(planning_horizon, ss, emision_cost, hold_cost);
+        break;
+
+    case 5ull: // MinimumTotalCost
+        p = std::make_unique<MRP_Algorithm::MinimumTotalCost>(planning_horizon, ss, emision_cost, hold_cost);
+        break;
+
+    case 6ull: // MinimumUnitaryCost
+        p = std::make_unique<MRP_Algorithm::MinimumUnitaryCost>(planning_horizon, ss, emision_cost, hold_cost);
+        break;
+
+    case 7ull: // SilverMeal
+        p = std::make_unique<MRP_Algorithm::SilverMeal>(planning_horizon, ss, emision_cost, hold_cost);
+        break;
+
+    default:
+        qDebug() << "ERROR PLANNING, case not programmed";
+        return;
+    }
+
+    QSqlQuery q_orders("SELECT FECHA_LANZAMIENTO,SUM(CANTIDAD) FROM pedidos GROUP BY FECHA_LANZAMIENTO", selector_database_window.getDB());
+    while(q_orders.next())
+    {
+        const std::size_t period {q_orders.value(0).toULongLong()};
+        const std::size_t count {q_orders.value(1).toULongLong()};
+        p->insert_need(period-1, count);
+    }
+
+    QSqlQuery q_receptions("SELECT FECHA,SUM(CANTIDAD) FROM recepciones_programadas GROUP BY FECHA", selector_database_window.getDB());
+    while(q_receptions.next())
+    {
+        const std::size_t period {q_receptions.value(0).toULongLong()};
+        const std::size_t count {q_receptions.value(1).toULongLong()};
+        p->insert_receptions(period-1, count);
+    }
+
+    p->calculate();
+
+    auto e = p->get_needs();
+    for(auto it : e)
+        std::printf("%8llu ", it);
+
+    e = p->get_availability();
+    std::printf("\n");
+    for(auto it : e)
+        std::printf("%8llu ", it);
+
+    e = p->get_receptions();
+    std::printf("\n");
+    for(auto it : e)
+        std::printf("%8llu ", it);
+
+    e = p->get_net_needs();
+    std::printf("\n");
+    for(auto it : e)
+        std::printf("%8llu ", it);
+
+    e = p->get_ppl();
+    std::printf("\n");
+    for(auto it : e)
+        std::printf("%8llu ", it);
+    std::printf("\n");
+
+    std::printf("%.2lfe\n", p->get_emision_costs());
+    std::printf("%.2lfe\n", p->get_hold_costs());
+    std::printf("%.2lfe\n", p->get_total_costs());
+    std::fflush(stdout);
+
+}
 
 
 

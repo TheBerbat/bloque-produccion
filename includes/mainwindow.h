@@ -26,6 +26,7 @@ private slots:
     void updateItem(int r, int c);
     void insertItem(int status);
     void clickDeleteItem(int r, int c);
+    void calculate();
 
 private:
     Ui::MainWindow *ui;
