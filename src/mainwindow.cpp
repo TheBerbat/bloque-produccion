@@ -4,7 +4,6 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QMessageBox>
-#include <cstdio>
 
 #include <selectdatabasedialog.h>
 #include <insertdatadialog.h>
@@ -338,37 +337,8 @@ void MainWindow::calculate()
     }
 
     p->calculate();
+    table_window.setMRP(p.get());
     table_window.show();
-
-    auto e = p->get_needs();
-    for(auto it : e)
-        std::printf("%8llu ", it);
-
-    e = p->get_availability();
-    std::printf("\n");
-    for(auto it : e)
-        std::printf("%8llu ", it);
-
-    e = p->get_receptions();
-    std::printf("\n");
-    for(auto it : e)
-        std::printf("%8llu ", it);
-
-    e = p->get_net_needs();
-    std::printf("\n");
-    for(auto it : e)
-        std::printf("%8llu ", it);
-
-    e = p->get_ppl();
-    std::printf("\n");
-    for(auto it : e)
-        std::printf("%8llu ", it);
-    std::printf("\n");
-
-    std::printf("%.2lfe\n", p->get_emision_costs());
-    std::printf("%.2lfe\n", p->get_hold_costs());
-    std::printf("%.2lfe\n", p->get_total_costs());
-    std::fflush(stdout);
 
 }
 

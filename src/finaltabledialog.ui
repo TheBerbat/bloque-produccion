@@ -6,53 +6,95 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>749</width>
-    <height>216</height>
+    <width>767</width>
+    <height>302</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTableWidget" name="tableWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>721</width>
-     <height>191</height>
-    </rect>
-   </property>
-   <row>
-    <property name="text">
-     <string>Necesidades Brutas</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Disponibilidades</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Recepciones Programadas</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Necesidades Netas</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Recepción de pedidos planificados</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Lanzamiento de pedidos planificados</string>
-    </property>
-   </row>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <widget class="QTableWidget" name="tableWidget">
+     <row>
+      <property name="text">
+       <string>Necesidades Brutas</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Disponibilidades</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Recepciones Programadas</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Necesidades Netas</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Recepción de pedidos planificados</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Lanzamiento de pedidos planificados</string>
+      </property>
+     </row>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Costes de posesion</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Costes de emision</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_2"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Costes totales</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_3"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
