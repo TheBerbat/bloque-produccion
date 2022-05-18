@@ -4,6 +4,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <cstdio>
 
 #include <selectdatabasedialog.h>
 #include <insertdatadialog.h>
@@ -15,13 +16,13 @@
 #include <algorithm/MinimumTotalCost.hpp>
 #include <algorithm/MinimumUnitaryCost.hpp>
 #include <algorithm/SilverMeal.hpp>
-#include <cstdio>
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , selector_database_window(this)
+    , table_window(this)
 {
     ui->setupUi(this);
 
@@ -337,6 +338,7 @@ void MainWindow::calculate()
     }
 
     p->calculate();
+    table_window.show();
 
     auto e = p->get_needs();
     for(auto it : e)

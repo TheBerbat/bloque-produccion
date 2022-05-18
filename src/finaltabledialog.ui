@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FinalTableDialog</class>
+ <widget class="QDialog" name="FinalTableDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>749</width>
+    <height>216</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>721</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>Necesidades Brutas</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Disponibilidades</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Recepciones Programadas</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Necesidades Netas</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Recepción de pedidos planificados</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Lanzamiento de pedidos planificados</string>
+    </property>
+   </row>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

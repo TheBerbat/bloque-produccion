@@ -21,7 +21,8 @@ SOURCES += \
     src/insertdatadialog.cpp \
     src/selectdatabasedialog.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/finaltabledialog.cpp \
 
 HEADERS += \
     includes/mainwindow.h \
@@ -36,11 +37,13 @@ HEADERS += \
     includes/algorithm/MinimumUnitaryCost.hpp \
     includes/algorithm/MinimumTotalCost.hpp \
     includes/algorithm/SilverMeal.hpp \
+    includes/finaltabledialog.h \
 
 FORMS += \
     src/insertdatadialog.ui \
     src/selectdatabasedialog.ui \
-    src/mainwindow.ui
+    src/mainwindow.ui \
+    src/finaltabledialog.ui \
 
 INCLUDEPATH += includes
 
