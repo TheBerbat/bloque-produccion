@@ -15,6 +15,7 @@ SOURCES += \
     src/algorithm/EOQ.cpp \
     src/algorithm/FixedPeriod.cpp \
     src/algorithm/FixedPeriodOptimal.cpp \
+    src/algorithm/MinimumUnitaryCost.cpp \
     src/insertdatadialog.cpp \
     src/selectdatabasedialog.cpp \
     src/main.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     includes/algorithm/EOQ.hpp \
     includes/algorithm/FixedPeriod.hpp \
     includes/algorithm/FixedPeriodOptimal.hpp \
+    includes/algorithm/MinimumUnitaryCost.hpp \
 
 FORMS += \
     src/insertdatadialog.ui \
