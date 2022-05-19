@@ -175,10 +175,18 @@ double BaseMRP::get_hold_costs(bool include_security_stock)
     }
     double cost {0.0};
     for (auto it {availability_.begin()} ; it!=availability_.end()-1 ; ++it)
-        cost += hold_cost_ * static_cast<double>(*it);
+    {
+        double net_availability {static_cast<double>(*it)};
+        if (!include_security_stock)
+        {
+            if (net_availability <= static_cast<double>(security_stock_))
+                net_availability = 0.0;
+            else
+                net_availability -= static_cast<double>(security_stock_);
+        }
 
-    if (!include_security_stock)
-        cost -= static_cast<double>(security_stock_ * planning_horizon_);
+        cost += hold_cost_ * net_availability;
+    }
 
     return cost;
 }
