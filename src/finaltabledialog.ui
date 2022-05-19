@@ -6,12 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>811</width>
-    <height>301</height>
+    <width>750</width>
+    <height>256</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>450</width>
+    <height>256</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>256</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Resultado MRP</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
@@ -60,7 +72,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="holdCost"/>
+        <widget class="QLineEdit" name="holdCost">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -74,7 +90,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="emisionCost"/>
+        <widget class="QLineEdit" name="emisionCost">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -88,7 +108,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="totalCost"/>
+        <widget class="QLineEdit" name="totalCost">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

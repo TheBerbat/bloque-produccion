@@ -264,13 +264,14 @@ void MainWindow::changedBatchMethod(int state)
         ui->optionalValue->setValue(0);
         ui->optionalLabel->setVisible(true);
         ui->optionalLabel->setText("Lote minimo");
+        break;
 
     case 3: // Fixed Period
         ui->optionalValue->setVisible(true);
         ui->optionalValue->setMinimum(1);
         ui->optionalValue->setValue(1);
         ui->optionalLabel->setVisible(true);
-        ui->optionalLabel->setText("Periodo minimo");
+        ui->optionalLabel->setText("Periodo fijo");
         break;
 
     case 0: // BATCH2BATCH
