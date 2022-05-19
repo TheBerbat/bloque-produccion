@@ -18,7 +18,7 @@ public:
 
     void setMRP(MRP_Algorithm::BaseMRP* mrp);
 private:
-    void setRow(std::vector<std::size_t> values, int row);
+    void setRow(std::vector<std::size_t> values, int row, int zero_offset=0);
     void setItem(std::size_t value, int row, int column);
 
 private:
