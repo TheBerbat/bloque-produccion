@@ -21,6 +21,7 @@ public:
 
     void set_costs(double emision_cost_, double hold_cost_);
     void set_ship_period(std::size_t period);
+    std::size_t get_ship_period() const;
 
     virtual void calculate() = 0;
 

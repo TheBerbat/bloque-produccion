@@ -57,6 +57,10 @@ void BaseMRP::set_ship_period(std::size_t period)
 {
     period_ship_ = period;
 }
+std::size_t BaseMRP::get_ship_period() const
+{
+    return period_ship_;
+}
 
 std::vector<std::size_t> BaseMRP::get_needs()
 {
@@ -110,9 +114,11 @@ std::vector<std::size_t> BaseMRP::get_lppl()
         this->calculate();
         calculated_ = true;
     }
-    std::vector<std::size_t> lppl(planning_horizon_);
-    for (std::size_t i{period_ship_} ; i<planning_horizon_ ; ++i)
-        lppl.at(i-period_ship_) = ppl_.at(i);
+    std::vector<std::size_t> lppl(planning_horizon_+period_ship_);
+    for (std::size_t i{0} ; i<planning_horizon_ ; ++i)
+        lppl.at(i) = ppl_.at(i);
+    for(std::size_t i{planning_horizon_} ; i<planning_horizon_+period_ship_ ; ++i)
+        lppl.at(i) = 0;
     return lppl;
 }
 
