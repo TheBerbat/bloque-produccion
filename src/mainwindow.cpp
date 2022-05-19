@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     disconnectDatabase();
+    changedBatchMethod(0);
 
     QObject::connect(ui->actionConectar, &QAction::triggered,
                      this, &MainWindow::connectDatabase);
@@ -47,6 +48,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect(ui->calculateButton, &QPushButton::clicked,
                      this, &MainWindow::calculate);
+
+    QObject::connect(ui->algorithmSelector, &QComboBox::currentIndexChanged,
+                     this, &MainWindow::changedBatchMethod);
 }
 
 MainWindow::~MainWindow()
@@ -245,6 +249,40 @@ void MainWindow::fillTable(QSqlQuery& q)
     auto_editing = false;
 }
 
+void MainWindow::changedBatchMethod(int state)
+{
+    switch (state)
+    {
+    case 1: // BATCH2BATCH with minimum
+        ui->optionalValue->setVisible(true);
+        ui->optionalValue->setMinimum(0);
+        ui->optionalValue->setValue(0);
+        ui->optionalLabel->setVisible(true);
+        ui->optionalLabel->setText("Lote minimo");
+
+    case 3: // Fixed Period
+        ui->optionalValue->setVisible(true);
+        ui->optionalValue->setMinimum(1);
+        ui->optionalValue->setValue(1);
+        ui->optionalLabel->setVisible(true);
+        ui->optionalLabel->setText("Periodo minimo");
+        break;
+
+    case 0: // BATCH2BATCH
+    case 2: // EOQ
+    case 4: // Fixed Period Optimal
+    case 5: // MinimumTotalCost
+    case 6: // MinimumUnitaryCost
+    case 7: // SilverMeal
+        ui->optionalValue->setVisible(false);
+        ui->optionalLabel->setVisible(false);
+        break;
+
+    default:
+        qDebug() << "ERROR PLANNING, case not programmed";
+        return;
+    }
+}
 
 void MainWindow::calculate()
 {
@@ -254,8 +292,8 @@ void MainWindow::calculate()
     const std::size_t ss { static_cast<std::size_t>(ui->securityStock->value()) };
     const double hold_cost { ui->holdCost->value() };
     const double emision_cost { ui->emisionCost->value() };
-    const std::size_t batch_min { static_cast<std::size_t>(ui->batchSize->value()) };
-    const std::size_t fixed_period { static_cast<std::size_t>(ui->periodSize->value()) };
+    const std::size_t batch_min { static_cast<std::size_t>(ui->optionalValue->value()) };
+    const std::size_t fixed_period { static_cast<std::size_t>(ui->optionalValue->value()) };
     const std::size_t period_ship { static_cast<std::size_t>(ui->shipTime->value()) };
 
 
@@ -263,7 +301,7 @@ void MainWindow::calculate()
     //
     QSqlQuery q1("SELECT FECHA_LANZAMIENTO FROM pedidos ORDER BY FECHA_LANZAMIENTO DESC LIMIT 1", selector_database_window.getDB());
 
-    std::size_t planning_horizon;
+    std::size_t planning_horizon {1};
     if(q1.next())
         planning_horizon = q1.value(0).toULongLong();
     else

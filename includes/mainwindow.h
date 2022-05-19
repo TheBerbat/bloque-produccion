@@ -28,6 +28,7 @@ private slots:
     void insertItem(int status);
     void clickDeleteItem(int r, int c);
     void calculate();
+    void changedBatchMethod(int state);
 
 private:
     Ui::MainWindow *ui;
