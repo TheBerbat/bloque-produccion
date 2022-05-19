@@ -246,6 +246,7 @@ void MainWindow::fillTable(QSqlQuery& q)
         ui->tableWidget->setItem(row, 2, fecha_lanzamiento);
         ui->tableWidget->setItem(row, 3, cantidad);
     }
+    ui->tableWidget->setColumnHidden(0, true);
     auto_editing = false;
 }
 
