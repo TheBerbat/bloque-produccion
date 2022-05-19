@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>478</width>
+    <height>352</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>El programa ha sido desarrollado para el trabajo final de la asignatura
+impartida en el Grado de Ingeniería Electrónica Industrial y Automática
+en el Campus de Ciudad Real.
+Está orientado a fines académicos y se puede usar para comprobar los 
+cálculos realizados y realizar simulaciones de forma rápida.
+
+Asignatura
+Producción Integrada por Computador (Bloque Producción)
+
+Grado de Ingeniería Electrónica Industrial y Automática
+Escuela Superior de Ingeniería Industrial
+Universidad Castilla-La Mancha</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_email">
+     <property name="text">
+      <string>Autor: Rafael, Martin San Martin (&lt;a href=&quot;mailto:Rafael.Martin3@alu.uclm.es&quot;&gt;Rafael.Martin3@alu.uclm.es&lt;/a&gt;)
+</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Está basado en Qt6 (v6.2.3) y desarrollado en C++20, cuyo codigo fuente 
+es abierto y público. Puede encontrarse en siguiente repositorio: </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_repo">
+     <property name="text">
+      <string>&lt;a href=&quot;https://github.com/TheBerbat/bloque-produccion&quot;&gt;https://github.com/TheBerbat/bloque-produccion&lt;/a&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Si ecuentra algún problema, puede comunicarlo a tavés de Github.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

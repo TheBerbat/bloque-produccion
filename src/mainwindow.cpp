@@ -16,6 +16,7 @@
 #include <algorithm/MinimumUnitaryCost.hpp>
 #include <algorithm/SilverMeal.hpp>
 
+#include <aboutdialog.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -51,6 +52,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect(ui->algorithmSelector, &QComboBox::currentIndexChanged,
                      this, &MainWindow::changedBatchMethod);
+
+    QObject::connect(ui->actionInformacion, &QAction::triggered,
+                     this, &MainWindow::showInformation);
 }
 
 MainWindow::~MainWindow()
@@ -385,5 +389,10 @@ void MainWindow::calculate()
 
 }
 
+void MainWindow::showInformation()
+{
+    AboutDialog w(this);
+    w.exec();
+}
 
 

@@ -327,7 +327,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -373,7 +373,14 @@
     <addaction name="actionConectar"/>
     <addaction name="actionDesconectar"/>
    </widget>
+   <widget class="QMenu" name="menuInformacion">
+    <property name="title">
+     <string>Información</string>
+    </property>
+    <addaction name="actionInformacion"/>
+   </widget>
    <addaction name="menuDatos"/>
+   <addaction name="menuInformacion"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionConectar">
@@ -390,6 +397,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionInformacion">
+   <property name="text">
+    <string>Mostrar Informacion</string>
    </property>
   </action>
  </widget>

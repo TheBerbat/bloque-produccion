@@ -23,6 +23,7 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/finaltabledialog.cpp \
+    src/aboutdialog.cpp \
 
 HEADERS += \
     includes/mainwindow.h \
@@ -38,12 +39,14 @@ HEADERS += \
     includes/algorithm/MinimumTotalCost.hpp \
     includes/algorithm/SilverMeal.hpp \
     includes/finaltabledialog.h \
+    includes/aboutdialog.h \
 
 FORMS += \
     src/insertdatadialog.ui \
     src/selectdatabasedialog.ui \
     src/mainwindow.ui \
     src/finaltabledialog.ui \
+    src/aboutdialog.ui \
 
 INCLUDEPATH += includes
 

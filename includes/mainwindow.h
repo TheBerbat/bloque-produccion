@@ -29,6 +29,7 @@ private slots:
     void clickDeleteItem(int r, int c);
     void calculate();
     void changedBatchMethod(int state);
+    void showInformation();
 
 private:
     Ui::MainWindow *ui;
