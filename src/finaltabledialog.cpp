@@ -46,5 +46,8 @@ void FinalTableDialog::setMRP(MRP_Algorithm::BaseMRP* mrp)
     ui->holdCost->setReadOnly(true);
     ui->totalCost->setText(QString::number(mrp->get_total_costs(), 'f', 2) + "€");
     ui->totalCost->setReadOnly(true);
+
+    //ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 }
 
