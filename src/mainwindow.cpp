@@ -200,15 +200,15 @@ void MainWindow::clickDeleteItem(int r, int c)
     QSqlQuery q(selector_database_window.getDB());
     if (ui->selectorTable->currentIndex() == 0)
     {
-        q.prepare("delete from pedidos where ID_PEDIDO=:id_pedi;");
+        q.prepare("delete from pedidos where ID_PEDIDO=:id_pedi");
 
         q.bindValue(":id_pedi", id);
     }
     else if (ui->selectorTable->currentIndex() == 1)
     {
-        q.prepare("delete from recepciones_programadas where ID_PROVEEDOR=:id_provee;");
+        q.prepare("delete from recepciones_programadas where ID_RECEPCION=:id_recepc");
 
-        q.bindValue(":id_provee", id);
+        q.bindValue(":id_recepc", id);
     }
 
     q.exec();
