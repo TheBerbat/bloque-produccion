@@ -295,6 +295,7 @@ void MainWindow::calculate()
     const std::size_t batch_min { static_cast<std::size_t>(ui->optionalValue->value()) };
     const std::size_t fixed_period { static_cast<std::size_t>(ui->optionalValue->value()) };
     const std::size_t period_ship { static_cast<std::size_t>(ui->shipTime->value()) };
+    const std::size_t initial_availability { static_cast<std::size_t>(ui->initialAvailability->value()) };
 
 
     // GET PLANNING HORIZON FROM DATABASE
@@ -376,6 +377,7 @@ void MainWindow::calculate()
     }
 
     p->set_ship_period(period_ship);
+    p->set_initial_availability(initial_availability);
     p->calculate();
     table_window.setMRP(p.get());
     table_window.show();
